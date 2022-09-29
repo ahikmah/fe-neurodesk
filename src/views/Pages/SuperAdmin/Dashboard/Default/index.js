@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // material ui
 import { useTheme } from '@mui/material/styles';
@@ -24,8 +25,10 @@ import SsidChartIcon from '@mui/icons-material/SsidChart';
 import TimelineIcon from '@mui/icons-material/Timeline';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import MarkChatReadIcon from '@mui/icons-material/MarkChatRead';
+
 function AdminDashboard() {
   const theme = useTheme();
+  const navigate = useNavigate();
   const { user } = useAuth();
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -49,7 +52,7 @@ function AdminDashboard() {
               title={`Hello, ${user?.full_name} 👋🏻`}
               caption="Welcome to NeuroDesk, an AI-powered helpdesk routing system that saves you time, money and frustrations when it comes to handling tickets"
             >
-              <Button variant="contained" href="/super-admin/manage-team" size="small">
+              <Button variant="contained" onClick={() => navigate('/super-admin/manage-team')} size="small">
                 Manage Your Team
               </Button>
             </GreetingCard>

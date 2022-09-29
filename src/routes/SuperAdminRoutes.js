@@ -10,6 +10,7 @@ const MainLayout = Loadable(lazy(() => import('layout/MainLayout')));
 // DASHBOARD
 const DashboarDefault = Loadable(lazy(() => import('views/Pages/SuperAdmin/Dashboard/Default')));
 const DashboarAnalytics = Loadable(lazy(() => import('views/Pages/SuperAdmin/Dashboard/Analytics')));
+const ManageTeam = Loadable(lazy(() => import('views/Pages/SuperAdmin/Dashboard/ManageTeam')));
 
 // TICKET
 const AllTicket = Loadable(lazy(() => import('views/Pages/SuperAdmin/Ticket/AllTicket')));
@@ -35,6 +36,10 @@ const SuperAdminRoutes = {
     {
       path: 'dashboard/project',
       element: <DashboarAnalytics />,
+    },
+    {
+      path: 'manage-team',
+      element: <ManageTeam />,
     },
     {
       path: 'all-ticket',
