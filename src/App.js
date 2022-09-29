@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+// defaultTheme
+import { useSelector } from 'react-redux';
 
-function App() {
+import { ThemeProvider } from '@mui/material/styles';
+import { StyledEngineProvider } from '@mui/material';
+
+// routing
+import Routes from 'routes';
+
+// default theme
+import themes from 'themes';
+
+// project imports
+import NavigationScroll from 'layout/NavigationScroll';
+import Snackbar from 'ui-components/extended/Snackbar';
+
+// auth provider
+import { AuthProvider } from 'contexts/AuthContext';
+
+const App = () => {
+  const customization = useSelector((state) => state.customization);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={themes(customization)}>
+        <NavigationScroll>
+          <AuthProvider>
+            <>
+              <Routes />
+              <Snackbar />
+            </>
+          </AuthProvider>
+        </NavigationScroll>
+      </ThemeProvider>
+    </StyledEngineProvider>
   );
-}
+};
 
 export default App;
