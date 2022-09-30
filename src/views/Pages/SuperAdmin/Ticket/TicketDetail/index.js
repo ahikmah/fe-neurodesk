@@ -35,7 +35,7 @@ const TicketDetail = () => {
         <Stack direction="row" justifyContent="space-between">
           <Typography variant="h3">Detail Ticket</Typography>
           <Stack direction="row" alignItems="center" spacing={2}>
-            <Button size="small" variant="outlined" onClick={() => setModeEdit((prev) => !prev)}>
+            <Button size="small" variant="outlined" onClick={() => setModeEdit((prev) => !prev)} color={modeEdit ? 'error' : 'primary'}>
               {modeEdit ? 'Cancel' : 'Edit'}
             </Button>
             {modeEdit && (
