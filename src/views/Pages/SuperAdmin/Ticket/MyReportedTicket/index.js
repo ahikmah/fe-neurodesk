@@ -10,7 +10,7 @@ import timeSince from 'utils/timeSince';
 import { getTicket } from 'store/slices/ticket';
 import { useDispatch, useSelector } from 'store';
 
-const MyTicket = () => {
+const MyReportedTicket = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ const MyTicket = () => {
   }, [state.listTicket]);
 
   useEffect(() => {
-    dispatch(getTicket('mine=Y'));
+    dispatch(getTicket('myIssue=Y'));
   }, []);
   // Data Table
   const columns = [
@@ -170,4 +170,4 @@ const MyTicket = () => {
   );
 };
 
-export default MyTicket;
+export default MyReportedTicket;

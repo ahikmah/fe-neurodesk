@@ -1,10 +1,11 @@
 // assets
-import { IconDashboard, IconDeviceAnalytics, IconListCheck, IconFileImport, IconCirclePlus } from '@tabler/icons';
+import { IconDashboard, IconDeviceAnalytics, IconHandStop, IconListCheck, IconFileImport, IconCirclePlus } from '@tabler/icons';
 
 // constant
 const icons = {
   IconDashboard,
   IconDeviceAnalytics,
+  IconHandStop,
   IconListCheck,
   IconFileImport,
   IconCirclePlus,
@@ -51,10 +52,18 @@ const SuperAdmin = [
       },
       {
         id: 'my-ticket',
-        title: 'My Ticket',
+        title: 'Assigned to Me',
         type: 'item',
         url: '/super-admin/my-ticket',
         icon: icons.IconFileImport,
+        breadcrumbs: false,
+      },
+      {
+        id: 'my-reported-ticket',
+        title: 'Reported by Me',
+        type: 'item',
+        url: '/super-admin/my-reported-ticket',
+        icon: icons.IconHandStop,
         breadcrumbs: false,
       },
       {
