@@ -27,12 +27,14 @@ export const AuthProvider = ({ children }) => {
         const data = base64.decryptData(window.localStorage.getItem('@_ui_us') ? window.localStorage.getItem('@_ui_us') : {});
         if (data) {
           const role = await token.getUserClient();
+          const id = await token.getUserClient('id');
           const full_name = await token.getUserClient('full_name');
           dispatch({
             type: LOGIN,
             payload: {
               isLoggedIn: true,
               user: {
+                id,
                 full_name,
                 role,
               },
@@ -64,6 +66,7 @@ export const AuthProvider = ({ children }) => {
       const data = base64.encodeData(res.data.data);
       window.localStorage.setItem('@_ui_us', data);
       const role = await token.getUserClient();
+      const id = await token.getUserClient('id');
       const full_name = await token.getUserClient('full_name');
 
       dispatch({
@@ -71,6 +74,7 @@ export const AuthProvider = ({ children }) => {
         payload: {
           isLoggedIn: true,
           user: {
+            id,
             full_name,
             role,
           },

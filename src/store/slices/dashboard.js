@@ -10,7 +10,9 @@ import { openSnackbar } from 'store/slices/snackbar';
 const initialState = {
   error: null,
   loading: false,
-  listCategory: null,
+  listCategory: [],
+  listUser: [],
+  pagination: { page: 1, totalPage: 1, totalData: 1 },
 };
 
 const slice = createSlice({
@@ -27,6 +29,15 @@ const slice = createSlice({
 
     listCategory(state, action) {
       state.listCategory = action.payload;
+    },
+
+    listUser(state, action) {
+      state.listUser = action.payload;
+    },
+
+    // pagination for user
+    pagiantion(state, action) {
+      state.pagination = action.payload;
     },
   },
 });
@@ -114,6 +125,99 @@ export function deleteCategory(id) {
         openSnackbar({
           open: true,
           message: 'Failed - Delete Category',
+          variant: 'alert',
+          alert: {
+            color: 'error',
+          },
+          close: false,
+        })
+      );
+      dispatch(slice.actions.loading(false));
+    }
+  };
+}
+
+export function getAllUser(param) {
+  return async () => {
+    try {
+      dispatch(slice.actions.loading(true));
+      const res = await AxiosInstance.get(`/user/all?${param ? param : ''}`);
+      dispatch(slice.actions.listUser(res.data.data));
+      if (res.data.page) {
+        dispatch(slice.actions.pagiantion({ totalPage: res.data.totalPage, page: res.data.page, totalData: res.data.totalData }));
+      }
+      dispatch(slice.actions.loading(false));
+      dispatch(slice.actions.hasError(null));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error.response.data));
+    }
+  };
+}
+
+export function createUser(body) {
+  return async () => {
+    try {
+      await AxiosInstance.post('/user', body);
+      dispatch(slice.actions.loading(true));
+      const res = await AxiosInstance.get(`/user/all?page=1`);
+      dispatch(slice.actions.listUser(res.data.data));
+      dispatch(
+        openSnackbar({
+          open: true,
+          message: 'Success - Create New User ',
+          variant: 'alert',
+          alert: {
+            color: 'success',
+          },
+          close: true,
+        })
+      );
+      dispatch(slice.actions.loading(false));
+      dispatch(slice.actions.hasError(null));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error.response.data));
+      dispatch(
+        openSnackbar({
+          open: true,
+          message: 'Failed - Create New User',
+          variant: 'alert',
+          alert: {
+            color: 'error',
+          },
+          close: false,
+        })
+      );
+      dispatch(slice.actions.loading(false));
+    }
+  };
+}
+export function deleteUser(id) {
+  return async () => {
+    try {
+      dispatch(slice.actions.loading(true));
+      await AxiosInstance.delete(`/user/delete/${id}`);
+      const res = await AxiosInstance.get(`/user/all?page=1`);
+      dispatch(slice.actions.listUser(res.data.data));
+      dispatch(
+        openSnackbar({
+          open: true,
+          message: 'Success - Delete User ',
+          variant: 'alert',
+          alert: {
+            color: 'success',
+          },
+          close: false,
+        })
+      );
+      dispatch(slice.actions.loading(false));
+      dispatch(slice.actions.hasError(null));
+    } catch (error) {
+      dispatch(slice.actions.loading(true));
+      dispatch(slice.actions.hasError(error.response.data));
+      dispatch(
+        openSnackbar({
+          open: true,
+          message: 'Failed - Delete User',
           variant: 'alert',
           alert: {
             color: 'error',

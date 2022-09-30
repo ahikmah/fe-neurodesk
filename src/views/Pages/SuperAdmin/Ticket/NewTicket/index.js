@@ -1,7 +1,8 @@
 import React from 'react';
+import MainCard from 'ui-components/cards/MainCard';
 
 const NewTicket = () => {
-  return <div>NewTicket</div>;
+  return <MainCard title="Submit New Ticket"></MainCard>;
 };
 
 export default NewTicket;
