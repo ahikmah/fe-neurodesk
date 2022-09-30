@@ -15,6 +15,7 @@ const ManageTeam = Loadable(lazy(() => import('views/Pages/SuperAdmin/Dashboard/
 const AllTicket = Loadable(lazy(() => import('views/Pages/SuperAdmin/Ticket/AllTicket')));
 const MyTicket = Loadable(lazy(() => import('views/Pages/SuperAdmin/Ticket/MyTicket')));
 const NewTicket = Loadable(lazy(() => import('views/Pages/SuperAdmin/Ticket/NewTicket')));
+const TicketDetail = Loadable(lazy(() => import('views/Pages/SuperAdmin/Ticket/TicketDetail')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -51,6 +52,10 @@ const SuperAdminRoutes = {
     {
       path: 'new-ticket',
       element: <NewTicket />,
+    },
+    {
+      path: 'detail-ticket/:id',
+      element: <TicketDetail />,
     },
   ],
 };

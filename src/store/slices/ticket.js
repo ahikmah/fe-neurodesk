@@ -11,6 +11,7 @@ const initialState = {
   error: null,
   loading: false,
   listTicket: [],
+  detailTicket: [],
   pagination: { page: 1, totalPage: 1, totalData: 1 },
 };
 
@@ -28,6 +29,10 @@ const slice = createSlice({
 
     listTicket(state, action) {
       state.listTicket = action.payload;
+    },
+
+    detailTicket(state, action) {
+      state.detailTicket = action.payload;
     },
 
     // pagination for user
@@ -59,7 +64,7 @@ export function getDetailTicket(id) {
     try {
       dispatch(slice.actions.loading(true));
       const res = await AxiosInstance.get(`/ticket/detail/${id}`);
-      dispatch(slice.actions.listTicket(res.data.data));
+      dispatch(slice.actions.detailTicket(res.data.data));
       dispatch(slice.actions.loading(false));
       dispatch(slice.actions.hasError(null));
     } catch (error) {
