@@ -48,14 +48,14 @@ const IconWrapper = styled('div')({
 const GreetingCard = ({ icon, title, caption, children }) => {
   return (
     <CardWrapper border={false}>
-      <Box sx={{ p: { xs: 0, sm: 0, md: 0, lg: 0.7, xl: 2 } }}>
+      <Box sx={{ p: { xs: 0, sm: 0, md: 0, lg: 2, xl: 2 } }}>
         <Grid container alignItems="center">
           <Grid item xs={12} md={10}>
-            <Grid item sx={{ mb: 1 }}>
+            <Grid item sx={{ mb: 3 }}>
               <Typography variant="title">{title}</Typography>
             </Grid>
             <Grid item sx={{ mb: 3 }}>
-              <Typography variant="caption">{caption}</Typography>
+              <Typography variant="caption1">{caption}</Typography>
             </Grid>
             <Grid>{children && children}</Grid>
           </Grid>

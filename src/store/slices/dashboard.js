@@ -12,6 +12,8 @@ const initialState = {
   loading: false,
   listCategory: [],
   listUser: [],
+  summary: [],
+  log: [],
   pagination: { page: 1, totalPage: 1, totalData: 1 },
 };
 
@@ -34,6 +36,12 @@ const slice = createSlice({
     listUser(state, action) {
       state.listUser = action.payload;
     },
+    summary(state, action) {
+      state.summary = action.payload;
+    },
+    log(state, action) {
+      state.log = action.payload;
+    },
 
     // pagination for user
     pagiantion(state, action) {
@@ -46,6 +54,21 @@ const slice = createSlice({
 export default slice.reducer;
 
 // --------------------------------------------------------------------------------
+export function getDataDashboard() {
+  return async () => {
+    try {
+      dispatch(slice.actions.loading(true));
+      const res = await AxiosInstance.get(`/ticket/summary`);
+      const res2 = await AxiosInstance.get(`/user/log?page=1&offset=10`);
+      dispatch(slice.actions.summary(res.data.data));
+      dispatch(slice.actions.log(res2.data.data));
+      dispatch(slice.actions.loading(false));
+      dispatch(slice.actions.hasError(null));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error.response.data));
+    }
+  };
+}
 export function getCategory(param) {
   return async () => {
     try {
