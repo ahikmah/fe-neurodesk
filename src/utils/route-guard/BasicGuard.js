@@ -12,7 +12,7 @@ import useAuth from 'hooks/useAuth';
  * @param {PropTypes.node} children children element/node
  */
 
-const StudentGuard = ({ children }) => {
+const BasicGuard = ({ children }) => {
   const { isLoggedIn, user } = useAuth();
   const navigate = useNavigate();
 
@@ -28,8 +28,8 @@ const StudentGuard = ({ children }) => {
   return children;
 };
 
-StudentGuard.propTypes = {
+BasicGuard.propTypes = {
   children: PropTypes.node,
 };
 
-export default StudentGuard;
+export default BasicGuard;
