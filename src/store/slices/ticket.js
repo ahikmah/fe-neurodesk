@@ -116,8 +116,8 @@ export function updateTicket(body) {
     try {
       await AxiosInstance.patch('/ticket/update', body);
       dispatch(slice.actions.loading(true));
-      const res = await AxiosInstance.get(`/ticket/all`);
-      dispatch(slice.actions.listTicket(res.data.data));
+      // const res = await AxiosInstance.get(`/ticket/detail/${body.id}`);
+      // dispatch(slice.actions.detailTicket(res.data.data));
       dispatch(
         openSnackbar({
           open: true,
@@ -154,8 +154,8 @@ export function replyTicket(body) {
       const payload = await formData(body);
       await AxiosInstance.post('/ticket/reply', payload);
       dispatch(slice.actions.loading(true));
-      const res = await AxiosInstance.get(`/ticket/all`);
-      dispatch(slice.actions.listTicket(res.data.data));
+      const res = await AxiosInstance.get(`/ticket/detail/${body.id_ticket}`);
+      dispatch(slice.actions.detailTicket(res.data.data));
       dispatch(
         openSnackbar({
           open: true,
@@ -183,6 +183,28 @@ export function replyTicket(body) {
         })
       );
       dispatch(slice.actions.loading(false));
+    }
+  };
+}
+export function silentReply(body) {
+  return async () => {
+    try {
+      const payload = await formData(body);
+      await AxiosInstance.post('/ticket/reply', payload);
+      // const res = await AxiosInstance.get(`/ticket/detail/${body.id_ticket}`);
+      // dispatch(slice.actions.detailTicket(res.data.data));
+    } catch (error) {
+      dispatch(
+        openSnackbar({
+          open: true,
+          message: 'Something wrong happened',
+          variant: 'alert',
+          alert: {
+            color: 'error',
+          },
+          close: false,
+        })
+      );
     }
   };
 }

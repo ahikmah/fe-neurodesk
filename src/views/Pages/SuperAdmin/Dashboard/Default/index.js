@@ -17,7 +17,7 @@ import UserActivity from './UserActivity';
 import useAuth from 'hooks/useAuth';
 import { gridSpacing } from 'store/constant';
 import Welcome from '../Welcome';
-import { getCategory } from 'store/slices/dashboard';
+import { getCategory, getAllUser } from 'store/slices/dashboard';
 import { useDispatch, useSelector } from 'store';
 
 // assets
@@ -45,6 +45,7 @@ function AdminDashboard() {
 
   useEffect(() => {
     dispatch(getCategory());
+    dispatch(getAllUser());
   }, []);
 
   const [anchorEl, setAnchorEl] = useState(null);

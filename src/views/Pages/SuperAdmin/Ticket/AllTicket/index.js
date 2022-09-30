@@ -53,20 +53,18 @@ const AllTicket = () => {
       headerName: 'Category',
       headerClassName: 'super-app-theme--header',
       flex: 1,
-      maxWidth: 170,
     },
     {
       field: 'submitter_name',
       headerName: 'Submitter',
       headerClassName: 'super-app-theme--header',
-      maxWidth: 170,
+      flex: 1,
     },
     {
       field: 'assignee_name',
       headerName: 'Assigned To',
       headerClassName: 'super-app-theme--header',
       flex: 1,
-      maxWidth: 170,
     },
     {
       field: 'created',
