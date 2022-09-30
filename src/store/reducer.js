@@ -4,6 +4,7 @@ import storage from 'redux-persist/lib/storage';
 
 // reducer import
 import dashboardReducer from './slices/dashboard';
+import ticketReducer from './slices/ticket';
 import menuReducer from './slices/menu';
 import searchReducer from './slices/search';
 import snackbarReducer from './slices/snackbar';
@@ -17,6 +18,7 @@ const persistConfig = {
 
 const reducer = combineReducers({
   dashboard: dashboardReducer,
+  ticket: ticketReducer,
   menu: menuReducer,
   search: searchReducer,
   snackbar: snackbarReducer,

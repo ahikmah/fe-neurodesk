@@ -29,6 +29,7 @@ export const AuthProvider = ({ children }) => {
           const role = await token.getUserClient();
           const id = await token.getUserClient('id');
           const full_name = await token.getUserClient('full_name');
+          const email = await token.getUserClient('email');
           dispatch({
             type: LOGIN,
             payload: {
@@ -37,6 +38,7 @@ export const AuthProvider = ({ children }) => {
                 id,
                 full_name,
                 role,
+                email,
               },
             },
           });
@@ -68,7 +70,7 @@ export const AuthProvider = ({ children }) => {
       const role = await token.getUserClient();
       const id = await token.getUserClient('id');
       const full_name = await token.getUserClient('full_name');
-
+      const email = await token.getUserClient('email');
       dispatch({
         type: LOGIN,
         payload: {
@@ -77,6 +79,7 @@ export const AuthProvider = ({ children }) => {
             id,
             full_name,
             role,
+            email,
           },
         },
       });
