@@ -84,7 +84,7 @@ const TicketDetail = () => {
             </Alert>
           </Stack>
         }
-        sx={{ height: '100%', position: 'relative' }}
+        sx={{ height: '95%', position: 'relative' }}
       >
         {loading ? (
           <Stack alignItems="center">
