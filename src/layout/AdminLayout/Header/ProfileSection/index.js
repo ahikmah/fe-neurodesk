@@ -9,7 +9,6 @@ import {
   Chip,
   ClickAwayListener,
   Divider,
-  Grid,
   List,
   ListItemButton,
   ListItemIcon,
@@ -20,9 +19,6 @@ import {
   Typography,
 } from '@mui/material';
 
-// third-party
-import PerfectScrollbar from 'react-perfect-scrollbar';
-
 // project imports
 import AlertDialog from 'ui-components/extended/AlertDialog';
 import MainCard from 'ui-components/cards/MainCard';
@@ -31,7 +27,7 @@ import useAuth from 'hooks/useAuth';
 // import User1 from 'assets/images/users/user-round.svg';
 
 // assets
-import { IconLogout, IconSettings, IconUser } from '@tabler/icons';
+import { IconLogout, IconSettings } from '@tabler/icons';
 import useConfig from 'hooks/useConfig';
 
 // ==============================|| PROFILE MENU ||============================== //
@@ -115,7 +111,7 @@ const ProfileSection = () => {
         }}
         icon={
           <Avatar
-            // src={User1}
+            src={user?.photo}
             sx={{
               ...theme.typography.mediumAvatar,
               margin: '8px 0 8px 8px !important',
@@ -168,98 +164,55 @@ const ProfileSection = () => {
                             {user?.full_name}
                           </Typography>
                         </Stack>
-                        <Typography variant="subtitle2">{user.role === '01' ? 'Admin' : user.role === '02' ? 'Team Member' : 'Submitter'}</Typography>
+                        <Typography variant="subtitle2">
+                          {user.role === '01' ? 'Super Admin' : user.role === '02' ? 'Team Member' : 'Basic User'}
+                        </Typography>
                       </Stack>
-                      {/* <OutlinedInput
-                        sx={{ width: '100%', pr: 1, pl: 2, my: 2 }}
-                        id="input-search-profile"
-                        value={value}
-                        onChange={(e) => setValue(e.target.value)}
-                        placeholder="Search profile options"
-                        startAdornment={
-                          <InputAdornment position="start">
-                            <IconSearch stroke={1.5} size="16px" color={theme.palette.grey[500]} />
-                          </InputAdornment>
-                        }
-                        aria-describedby="search-helper-text"
-                        inputProps={{
-                          'aria-label': 'weight',
-                        }}
-                      /> */}
                       <Divider />
                     </Box>
-                    <PerfectScrollbar style={{ height: '100%', maxHeight: 'calc(100vh - 250px)', overflowX: 'hidden' }}>
-                      <Box sx={{ p: 2, pt: 0 }}>
-                        <Divider />
 
-                        <Divider />
-                        <List
-                          component="nav"
-                          sx={{
-                            width: '100%',
-                            maxWidth: 350,
-                            minWidth: 300,
-                            backgroundColor: theme.palette.background.paper,
-                            borderRadius: '10px',
-                            [theme.breakpoints.down('md')]: {
-                              minWidth: '100%',
-                            },
-                            '& .MuiListItemButton-root': {
-                              mt: 0.5,
-                            },
-                          }}
+                    <Box sx={{ p: 2, pt: 0 }}>
+                      <Divider />
+
+                      <Divider />
+                      <List
+                        component="nav"
+                        sx={{
+                          width: '100%',
+                          maxWidth: 350,
+                          minWidth: 300,
+                          backgroundColor: theme.palette.background.paper,
+                          borderRadius: '10px',
+                          [theme.breakpoints.down('md')]: {
+                            minWidth: '100%',
+                          },
+                          '& .MuiListItemButton-root': {
+                            mt: 0.5,
+                          },
+                        }}
+                      >
+                        <ListItemButton
+                          sx={{ borderRadius: `${borderRadius}px` }}
+                          selected={selectedIndex === 0}
+                          onClick={(event) => handleListItemClick(event, 0, '/admin/profile')}
                         >
-                          <ListItemButton
-                            sx={{ borderRadius: `${borderRadius}px` }}
-                            selected={selectedIndex === 0}
-                            onClick={(event) => handleListItemClick(event, 0, '/user/account-profile/profile1')}
-                          >
-                            <ListItemIcon>
-                              <IconSettings stroke={1.5} size="20px" />
-                            </ListItemIcon>
-                            <ListItemText primary={<Typography variant="body2">Account Settings</Typography>} />
-                          </ListItemButton>
-                          <ListItemButton
-                            sx={{ borderRadius: `${borderRadius}px` }}
-                            selected={selectedIndex === 1}
-                            onClick={(event) => handleListItemClick(event, 1, '/user/social-profile/posts')}
-                          >
-                            <ListItemIcon>
-                              <IconUser stroke={1.5} size="20px" />
-                            </ListItemIcon>
-                            <ListItemText
-                              primary={
-                                <Grid container spacing={1} justifyContent="space-between">
-                                  <Grid item>
-                                    <Typography variant="body2">Social Profile</Typography>
-                                  </Grid>
-                                  <Grid item>
-                                    <Chip
-                                      label="02"
-                                      size="small"
-                                      sx={{
-                                        bgcolor: theme.palette.mode === 'dark' ? theme.palette.dark.dark : theme.palette.warning.dark,
-                                        color: theme.palette.background.default,
-                                      }}
-                                    />
-                                  </Grid>
-                                </Grid>
-                              }
-                            />
-                          </ListItemButton>
-                          <ListItemButton
-                            sx={{ borderRadius: `${borderRadius}px` }}
-                            selected={selectedIndex === 4}
-                            onClick={() => setOpenLogoutDialog(true)}
-                          >
-                            <ListItemIcon>
-                              <IconLogout stroke={1.5} size="20px" />
-                            </ListItemIcon>
-                            <ListItemText primary={<Typography variant="body2">Logout</Typography>} />
-                          </ListItemButton>
-                        </List>
-                      </Box>
-                    </PerfectScrollbar>
+                          <ListItemIcon>
+                            <IconSettings stroke={1.5} size="20px" />
+                          </ListItemIcon>
+                          <ListItemText primary={<Typography variant="body2">Account Settings</Typography>} />
+                        </ListItemButton>
+                        <ListItemButton
+                          sx={{ borderRadius: `${borderRadius}px` }}
+                          selected={selectedIndex === 4}
+                          onClick={() => setOpenLogoutDialog(true)}
+                        >
+                          <ListItemIcon>
+                            <IconLogout stroke={1.5} size="20px" />
+                          </ListItemIcon>
+                          <ListItemText primary={<Typography variant="body2">Logout</Typography>} />
+                        </ListItemButton>
+                      </List>
+                    </Box>
                   </MainCard>
                 )}
               </Paper>

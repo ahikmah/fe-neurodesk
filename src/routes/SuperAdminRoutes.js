@@ -18,6 +18,10 @@ const MyReportedTicket = Loadable(lazy(() => import('views/Pages/SuperAdmin/Tick
 const NewTicket = Loadable(lazy(() => import('views/Pages/SuperAdmin/Ticket/NewTicket')));
 const TicketDetail = Loadable(lazy(() => import('views/Pages/SuperAdmin/Ticket/TicketDetail')));
 
+// PROFILE
+const Profile = Loadable(lazy(() => import('views/Pages/SuperAdmin/Profile')));
+
+
 // ==============================|| MAIN ROUTING ||============================== //
 
 const SuperAdminRoutes = {
@@ -61,6 +65,10 @@ const SuperAdminRoutes = {
     {
       path: 'detail-ticket/:id',
       element: <TicketDetail />,
+    },
+    {
+      path: 'profile',
+      element: <Profile />,
     },
   ],
 };

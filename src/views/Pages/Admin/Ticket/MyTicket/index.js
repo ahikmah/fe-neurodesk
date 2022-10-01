@@ -143,7 +143,7 @@ const MyTicket = () => {
       flex: 1,
       renderCell: (params) => (
         <Stack direction="row" spacing={1} alignItems="flex-start">
-          <Button size="small" variant="outlined" onClick={() => navigate(`/super-admin/detail-ticket/${params.row.id}`)}>
+          <Button size="small" variant="outlined" onClick={() => navigate(`/admin/detail-ticket/${params.row.id}`)}>
             Detail
           </Button>
         </Stack>

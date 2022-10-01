@@ -12,7 +12,6 @@ import StatisticCard from 'ui-components/cards/StatisticCard';
 import UserActivity from './UserActivity';
 import useAuth from 'hooks/useAuth';
 import { gridSpacing } from 'store/constant';
-import Welcome from '../Welcome';
 import { getCategory, getAllUser, getDataDashboard } from 'store/slices/dashboard';
 import { useDispatch, useSelector } from 'store';
 
@@ -31,7 +30,6 @@ function AdminDashboard() {
   const { user } = useAuth();
 
   const state = useSelector((state) => state.dashboard);
-  const [listCategory, setListCategory] = useState(state.listCategory || []);
   const [counter, setCounter] = useState(state.summary || []);
   const [logs, setLogs] = useState(state.log || []);
   const [listUser, setListUser] = useState(state.listUser || []);
@@ -41,9 +39,6 @@ function AdminDashboard() {
     setPage((prevState) => ({ ...prevState, page: v }));
   };
 
-  useEffect(() => {
-    setListCategory(state.listCategory);
-  }, [state.listCategory]);
   useEffect(() => {
     setCounter(state.summary);
   }, [state.summary]);
@@ -58,13 +53,11 @@ function AdminDashboard() {
 
   useEffect(() => {
     dispatch(getCategory());
-    dispatch(getAllUser());
+    dispatch(getAllUser('role=ADM'));
     dispatch(getDataDashboard());
   }, []);
 
-  return listCategory?.length === 0 ? (
-    <Welcome />
-  ) : (
+  return (
     <>
       <Grid container spacing={gridSpacing}>
         {/* row 1 */}
@@ -74,17 +67,21 @@ function AdminDashboard() {
             <Grid item xs={12}>
               <GreetingCard
                 icon={AdminImg}
-                title={`Hello, ${user?.full_name} 👋🏻`}
-                caption="Welcome to NeuroDesk, an AI-powered helpdesk routing system that saves you time, money and frustrations when it comes to handling tickets"
+                title={
+                  <Stack spacing={1}>
+                    <Typography variant="title">{user?.full_name}</Typography>
+                    <Typography variant="subtitle1">Division: {user?.division}</Typography>
+                  </Stack>
+                }
+                caption="Welcome to NeuroDesk, an AI-powered helpdesk routing system that saves you time, money and frustrations when it comes to handling tickets. Complete your ticket queue and be kind to customers😉"
               >
-                <Button variant="contained" onClick={() => navigate('/super-admin/manage-team')} size="small">
-                  Manage Your Team
+                <Button size="small" variant="contained" onClick={() => navigate('/admin/my-ticket')}>
+                  My Task
                 </Button>
               </GreetingCard>
             </Grid>
           </Grid>
         </Grid>
-
         {/* row 2 */}
         <Grid item xs={12}>
           <Grid container spacing={gridSpacing}>

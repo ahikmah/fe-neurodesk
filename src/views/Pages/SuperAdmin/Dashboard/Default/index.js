@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 // material ui
 import { useTheme } from '@mui/material/styles';
-import { Grid, Button, Stack, Typography, Divider, Chip, Pagination, Avatar } from '@mui/material';
+import { Grid, Button, Stack, Typography, Divider, Chip, Pagination, Avatar, CircularProgress } from '@mui/material';
 
 // project import
 import GreetingCard from 'ui-components/cards/GreetingCard';
@@ -31,6 +31,7 @@ function AdminDashboard() {
   const { user } = useAuth();
 
   const state = useSelector((state) => state.dashboard);
+  const [loading, setLoading] = useState(state.loading || true);
   const [listCategory, setListCategory] = useState(state.listCategory || []);
   const [counter, setCounter] = useState(state.summary || []);
   const [logs, setLogs] = useState(state.log || []);
@@ -41,6 +42,9 @@ function AdminDashboard() {
     setPage((prevState) => ({ ...prevState, page: v }));
   };
 
+  useEffect(() => {
+    setLoading(state.loading);
+  }, [state.loading]);
   useEffect(() => {
     setListCategory(state.listCategory);
   }, [state.listCategory]);
@@ -58,11 +62,15 @@ function AdminDashboard() {
 
   useEffect(() => {
     dispatch(getCategory());
-    dispatch(getAllUser());
+    dispatch(getAllUser('role=ADM'));
     dispatch(getDataDashboard());
   }, []);
 
-  return listCategory?.length === 0 ? (
+  return loading ? (
+    <Stack alignItems="center">
+      <CircularProgress />
+    </Stack>
+  ) : listCategory?.length === 0 ? (
     <Welcome />
   ) : (
     <>

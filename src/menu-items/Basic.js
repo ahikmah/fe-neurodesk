@@ -1,13 +1,9 @@
 // assets
-import { IconDashboard, IconDeviceAnalytics, IconHandStop, IconListCheck, IconFileImport, IconCirclePlus } from '@tabler/icons';
+import { IconRoute, IconCirclePlus } from '@tabler/icons';
 
 // constant
 const icons = {
-  IconDashboard,
-  IconDeviceAnalytics,
-  IconHandStop,
-  IconListCheck,
-  IconFileImport,
+  IconRoute,
   IconCirclePlus,
 };
 
@@ -20,19 +16,19 @@ const Basic = [
     type: 'group',
     children: [
       {
-        id: 'my-reported-ticket',
-        title: 'Reported by Me',
-        type: 'item',
-        url: '/super-admin/my-reported-ticket',
-        icon: icons.IconHandStop,
-        breadcrumbs: false,
-      },
-      {
         id: 'new-ticket',
         title: 'Create New Ticket',
         type: 'item',
-        url: '/super-admin/new-ticket',
+        url: '/new-ticket',
         icon: icons.IconCirclePlus,
+        breadcrumbs: false,
+      },
+      {
+        id: 'my-reported-ticket',
+        title: 'Track My Ticket',
+        type: 'item',
+        url: '/my-reported-ticket',
+        icon: icons.IconRoute,
         breadcrumbs: false,
       },
     ],

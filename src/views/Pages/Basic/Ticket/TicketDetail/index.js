@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 
 // material ui
-import { Button, Chip, CircularProgress, Divider, Grid, IconButton, MenuItem, Stack, TextField, Typography } from '@mui/material';
+import { Alert, Button, Chip, CircularProgress, Divider, Grid, IconButton, MenuItem, Stack, TextField, Typography } from '@mui/material';
 import {
   LoadingButton,
   Timeline,
@@ -21,7 +21,7 @@ import { getDetailTicket } from 'store/slices/ticket';
 import MainCard from 'ui-components/cards/MainCard';
 import timeSince from 'utils/timeSince';
 import FilePreviewDialog from 'ui-components/FilePreviewDialog';
-import { replyTicket, silentReply, updateTicket } from 'store/slices/ticket';
+import { replyTicket } from 'store/slices/ticket';
 
 // assets
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
@@ -30,9 +30,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 const TicketDetail = () => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state.ticket);
-  const dashboard = useSelector((state) => state.dashboard);
   const { id } = useParams();
-  const [modeEdit, setModeEdit] = useState(false);
   const [openFile, setOpenFile] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
 
@@ -49,73 +47,6 @@ const TicketDetail = () => {
   useEffect(() => {
     dispatch(getDetailTicket(id));
   }, []);
-
-  // ================ EDITABLE FIELD ==================== //
-  const [status, setStatus] = useState('');
-  const [category, setCategory] = useState('');
-  const [assignedTo, setAssignedTo] = useState('');
-  const [priority, setPriority] = useState('');
-  const [loadingUpdate, setLoadingUpdate] = useState(false);
-  useEffect(() => {
-    setStatus(detail[0].status);
-  }, [detail[0].status]);
-  useEffect(() => {
-    setCategory(detail[0].category);
-  }, [detail[0].category]);
-  useEffect(() => {
-    setAssignedTo(detail[0].assigned_to_id);
-  }, [detail[0].assigned_to_id]);
-  useEffect(() => {
-    setPriority(detail[0].priority);
-  }, [detail[0].priority]);
-
-  const updateTicketHandler = async () => {
-    setLoadingUpdate(true);
-    const body = {
-      id: id,
-      status: status,
-      category: category,
-      assigned_to_id: assignedTo,
-      priority: priority,
-    };
-    await dispatch(updateTicket(body));
-    if (status !== detail[0].status) {
-      const body = {
-        id_ticket: id,
-        description: `[Auto Reply] - Update Ticket Status from ${detail[0].ticket_status} to ${
-          status === '00' ? 'Open' : status === '01' ? 'Resolved' : status === '02' ? 'Closed' : status === '03' ? 'Duplicate' : 'Undefined'
-        }`,
-      };
-      await dispatch(silentReply(body));
-    }
-    if (category !== detail[0].category) {
-      const body = {
-        id_ticket: id,
-        description: `[Auto Reply] - Update Ticket Category from ${detail[0].category} to ${category}`,
-      };
-      await dispatch(silentReply(body));
-    }
-    if (assignedTo !== detail[0].assigned_to_id) {
-      const body = {
-        id_ticket: id,
-        description: '[Auto Reply] - Update Ticket Owner',
-      };
-      await dispatch(silentReply(body));
-    }
-    if (priority !== detail[0].priority) {
-      const body = {
-        id_ticket: id,
-        description: `[Auto Reply] - Update Ticket Priority from ${detail[0]?.ticket_priority} to ${
-          priority === '01' ? 'High' : priority === '02' ? 'Medium' : priority === '03' ? 'Low' : 'Undefined'
-        }`,
-      };
-      await dispatch(silentReply(body));
-    }
-
-    dispatch(getDetailTicket(id));
-    setLoadingUpdate(false);
-    setModeEdit(false);
-  };
 
   // ================= REPLY/COMMENT FIELD ======================== //
   const file = useRef();
@@ -139,18 +70,12 @@ const TicketDetail = () => {
   return (
     <MainCard
       title={
-        <Stack direction="row" justifyContent="space-between">
+        <Stack spacing={1}>
           <Typography variant="h3">Detail Ticket</Typography>
-          <Stack direction="row" alignItems="center" spacing={2}>
-            <Button size="small" variant="outlined" onClick={() => setModeEdit((prev) => !prev)} color={modeEdit ? 'error' : 'primary'}>
-              {modeEdit ? 'Cancel' : 'Edit'}
-            </Button>
-            {modeEdit && (
-              <LoadingButton loading={loadingUpdate} onClick={updateTicketHandler} size="small" variant="contained">
-                Save
-              </LoadingButton>
-            )}
-          </Stack>
+          <Alert severity="warning">
+            You cannot edit or delete tickets that are currently being submitted. If there is additional information that you want to convey, please
+            write it via the reply feature
+          </Alert>
         </Stack>
       }
       sx={{ height: '100%', position: 'relative' }}
@@ -180,16 +105,7 @@ const TicketDetail = () => {
                       <Typography variant="subtitle1">Status</Typography>
                     </Grid>
                     <Grid item xs={12} md={9}>
-                      {modeEdit ? (
-                        <TextField select size="small" variant="standard" value={status} onChange={(e) => setStatus(e.target.value)}>
-                          <MenuItem value="00">Open</MenuItem>
-                          <MenuItem value="01">Resolved</MenuItem>
-                          <MenuItem value="02">Closed</MenuItem>
-                          <MenuItem value="03">Duplicate</MenuItem>
-                        </TextField>
-                      ) : (
-                        <Typography>{detail[0]?.ticket_status}</Typography>
-                      )}
+                      <Typography>{detail[0]?.ticket_status}</Typography>
                     </Grid>
                   </Grid>
                 </Grid>
@@ -209,17 +125,7 @@ const TicketDetail = () => {
                       <Typography variant="subtitle1">Category</Typography>
                     </Grid>
                     <Grid item xs={12} md={9}>
-                      {modeEdit ? (
-                        <TextField select size="small" variant="standard" value={category} onChange={(e) => setCategory(e.target.value)}>
-                          {dashboard.listCategory.map((item, key) => (
-                            <MenuItem key={key} value={item.category}>
-                              {item.category}
-                            </MenuItem>
-                          ))}
-                        </TextField>
-                      ) : (
-                        <Typography>{detail[0]?.category}</Typography>
-                      )}
+                      <Typography>{detail[0]?.category}</Typography>
                     </Grid>
                   </Grid>
                 </Grid>
@@ -241,19 +147,9 @@ const TicketDetail = () => {
                       <Typography variant="subtitle1">Assigned To</Typography>
                     </Grid>
                     <Grid item xs={12} md={9}>
-                      {modeEdit ? (
-                        <TextField select size="small" variant="standard" value={assignedTo} onChange={(e) => setAssignedTo(e.target.value)}>
-                          {dashboard.listUser.map((item, key) => (
-                            <MenuItem key={key} value={item.id}>
-                              {item.full_name} - {item.division}
-                            </MenuItem>
-                          ))}
-                        </TextField>
-                      ) : (
-                        <Typography>
-                          {detail[0]?.assignee_name} <br /> ({detail[0]?.assignee_email}){' '}
-                        </Typography>
-                      )}
+                      <Typography>
+                        {detail[0]?.assignee_name} <br /> ({detail[0]?.assignee_email}){' '}
+                      </Typography>
                     </Grid>
                   </Grid>
                 </Grid>
@@ -275,15 +171,7 @@ const TicketDetail = () => {
                       <Typography variant="subtitle1">Priority</Typography>
                     </Grid>
                     <Grid item xs={12} md={9}>
-                      {modeEdit ? (
-                        <TextField select size="small" variant="standard" value={priority} onChange={(e) => setPriority(e.target.value)}>
-                          <MenuItem value="01">Hight</MenuItem>
-                          <MenuItem value="02">Medium</MenuItem>
-                          <MenuItem value="03">Low</MenuItem>
-                        </TextField>
-                      ) : (
-                        <Typography>{detail[0]?.ticket_priority}</Typography>
-                      )}
+                      <Typography>{detail[0]?.ticket_priority}</Typography>
                     </Grid>
                   </Grid>
                 </Grid>
@@ -293,13 +181,13 @@ const TicketDetail = () => {
             <Stack spacing={1} alignItems="flex-start">
               <Typography variant="title">Description</Typography>
               <Typography>{detail[0]?.description}</Typography>
-              {detail[0].attachment && (
+              {detail[0]?.attachment && (
                 <Chip
                   label={'View Attachment'}
                   color="info"
                   sx={{ cursor: 'pointer' }}
                   onClick={() => {
-                    setSelectedFile(detail[0].attachment);
+                    setSelectedFile(detail[0]?.attachment);
                     setOpenFile(true);
                   }}
                 />
@@ -318,6 +206,9 @@ const TicketDetail = () => {
                 ref={file}
                 onChange={(e) => setAttachment(e.target.files[0])}
               />
+              <Grid item xs={12}>
+                <Typography variant="title">Leave a Reply</Typography>
+              </Grid>
               <Grid item xs={12}>
                 <>
                   <Button
@@ -357,10 +248,10 @@ const TicketDetail = () => {
               <Typography variant="title">Update History</Typography>
             </Stack>
             <Stack alignItems="center">
-              {detail[0].replies?.length > 0 ? (
+              {detail[0]?.replies?.length > 0 ? (
                 <>
                   <Timeline position="alternate">
-                    {detail[0].replies.map((item, key) => (
+                    {detail[0]?.replies.map((item, key) => (
                       <TimelineItem key={key}>
                         <TimelineOppositeContent width="100%" color="text.secondary">
                           {new Date(item.created).toLocaleString()}

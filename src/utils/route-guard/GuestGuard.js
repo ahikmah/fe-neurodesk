@@ -23,7 +23,7 @@ const GuestGuard = ({ children }) => {
       } else if (user.role === '02') {
         navigate('/admin/dashboard', { replace: true });
       } else if (user.role === '03') {
-        navigate('/', { replace: true });
+        navigate('/dashboard', { replace: true });
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

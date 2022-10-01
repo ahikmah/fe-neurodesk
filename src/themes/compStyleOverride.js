@@ -47,13 +47,6 @@ export default function componentStyleOverrides(theme) {
         },
       },
     },
-    MuiAlert: {
-      styleOverrides: {
-        outlined: {
-          border: '1px dashed',
-        },
-      },
-    },
     MuiCardActions: {
       styleOverrides: {
         root: {

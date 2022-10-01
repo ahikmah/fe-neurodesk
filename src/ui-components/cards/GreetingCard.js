@@ -55,7 +55,7 @@ const GreetingCard = ({ icon, title, caption, children }) => {
               <Typography variant="title">{title}</Typography>
             </Grid>
             <Grid item sx={{ mb: 3 }}>
-              <Typography variant="caption1">{caption}</Typography>
+              <Typography>{caption}</Typography>
             </Grid>
             <Grid>{children && children}</Grid>
           </Grid>

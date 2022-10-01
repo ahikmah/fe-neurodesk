@@ -57,17 +57,17 @@ const TicketDetail = () => {
   const [priority, setPriority] = useState('');
   const [loadingUpdate, setLoadingUpdate] = useState(false);
   useEffect(() => {
-    setStatus(detail[0].status);
-  }, [detail[0].status]);
+    setStatus(detail[0]?.status);
+  }, [detail[0]?.status]);
   useEffect(() => {
-    setCategory(detail[0].category);
-  }, [detail[0].category]);
+    setCategory(detail[0]?.category);
+  }, [detail[0]?.category]);
   useEffect(() => {
-    setAssignedTo(detail[0].assigned_to_id);
-  }, [detail[0].assigned_to_id]);
+    setAssignedTo(detail[0]?.assigned_to_id);
+  }, [detail[0]?.assigned_to_id]);
   useEffect(() => {
-    setPriority(detail[0].priority);
-  }, [detail[0].priority]);
+    setPriority(detail[0]?.priority);
+  }, [detail[0]?.priority]);
 
   const updateTicketHandler = async () => {
     setLoadingUpdate(true);
@@ -79,30 +79,30 @@ const TicketDetail = () => {
       priority: priority,
     };
     await dispatch(updateTicket(body));
-    if (status !== detail[0].status) {
+    if (status !== detail[0]?.status) {
       const body = {
         id_ticket: id,
-        description: `[Auto Reply] - Update Ticket Status from ${detail[0].ticket_status} to ${
+        description: `[Auto Reply] - Update Ticket Status from ${detail[0]?.ticket_status} to ${
           status === '00' ? 'Open' : status === '01' ? 'Resolved' : status === '02' ? 'Closed' : status === '03' ? 'Duplicate' : 'Undefined'
         }`,
       };
       await dispatch(silentReply(body));
     }
-    if (category !== detail[0].category) {
+    if (category !== detail[0]?.category) {
       const body = {
         id_ticket: id,
-        description: `[Auto Reply] - Update Ticket Category from ${detail[0].category} to ${category}`,
+        description: `[Auto Reply] - Update Ticket Category from ${detail[0]?.category} to ${category}`,
       };
       await dispatch(silentReply(body));
     }
-    if (assignedTo !== detail[0].assigned_to_id) {
+    if (assignedTo !== detail[0]?.assigned_to_id) {
       const body = {
         id_ticket: id,
         description: '[Auto Reply] - Update Ticket Owner',
       };
       await dispatch(silentReply(body));
     }
-    if (priority !== detail[0].priority) {
+    if (priority !== detail[0]?.priority) {
       const body = {
         id_ticket: id,
         description: `[Auto Reply] - Update Ticket Priority from ${detail[0]?.ticket_priority} to ${
@@ -293,13 +293,13 @@ const TicketDetail = () => {
             <Stack spacing={1} alignItems="flex-start">
               <Typography variant="title">Description</Typography>
               <Typography>{detail[0]?.description}</Typography>
-              {detail[0].attachment && (
+              {detail[0]?.attachment && (
                 <Chip
                   label={'View Attachment'}
                   color="info"
                   sx={{ cursor: 'pointer' }}
                   onClick={() => {
-                    setSelectedFile(detail[0].attachment);
+                    setSelectedFile(detail[0]?.attachment);
                     setOpenFile(true);
                   }}
                 />
@@ -318,6 +318,9 @@ const TicketDetail = () => {
                 ref={file}
                 onChange={(e) => setAttachment(e.target.files[0])}
               />
+              <Grid item xs={12}>
+                <Typography variant="title">Leave a Reply</Typography>
+              </Grid>
               <Grid item xs={12}>
                 <>
                   <Button
@@ -357,10 +360,10 @@ const TicketDetail = () => {
               <Typography variant="title">Update History</Typography>
             </Stack>
             <Stack alignItems="center">
-              {detail[0].replies?.length > 0 ? (
+              {detail[0]?.replies?.length > 0 ? (
                 <>
                   <Timeline position="alternate">
-                    {detail[0].replies.map((item, key) => (
+                    {detail[0]?.replies.map((item, key) => (
                       <TimelineItem key={key}>
                         <TimelineOppositeContent width="100%" color="text.secondary">
                           {new Date(item.created).toLocaleString()}

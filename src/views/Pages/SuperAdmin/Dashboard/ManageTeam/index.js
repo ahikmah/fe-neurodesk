@@ -70,7 +70,7 @@ const ManageTeam = () => {
     dispatch(getCategory());
   }, []);
   useEffect(() => {
-    dispatch(getAllUser(`page=${page?.page || 1}`));
+    dispatch(getAllUser(`page=${page?.page || 1}&role=ADM`));
   }, []);
 
   // ================== ADD USER ========================

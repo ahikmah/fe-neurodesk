@@ -28,7 +28,7 @@ const MyReportedTicket = () => {
   }, [state.listTicket]);
 
   useEffect(() => {
-    dispatch(getTicket('myIssue=Y'));
+    dispatch(getTicket());
   }, []);
   // Data Table
   const columns = [
@@ -143,7 +143,7 @@ const MyReportedTicket = () => {
       flex: 1,
       renderCell: (params) => (
         <Stack direction="row" spacing={1} alignItems="flex-start">
-          <Button size="small" variant="outlined" onClick={() => navigate(`/super-admin/detail-ticket/${params.row.id}`)}>
+          <Button size="small" variant="outlined" onClick={() => navigate(`/detail-ticket/${params.row.id}`)}>
             Detail
           </Button>
         </Stack>
