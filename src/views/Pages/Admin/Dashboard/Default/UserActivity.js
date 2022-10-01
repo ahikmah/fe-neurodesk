@@ -43,7 +43,7 @@ const UserActivity = ({ title, data }) => {
                   <Grid item>
                     <Typography align="left" variant="caption">
                       <WatchLaterTwoToneIcon sx={iconSX} />
-                      {timeSince(new Date(item.created))}ago
+                      {timeSince(new Date(item.created))} ago
                     </Typography>
                   </Grid>
                 </Grid>
